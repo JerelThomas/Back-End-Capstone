@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 75
+    },
+    "email": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 75
+    },
+    "phone_number": {
+      "type": "string"
+    },
+    "password": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "IsAuth": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "username",
+    "email",
+    "phone_number",
+    "password",
+    "location",
+    "IsAuth"
+  ]
+}

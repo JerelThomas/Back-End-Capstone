@@ -46,20 +46,20 @@ class Supplier
 
     static async createShipments(Shipment)
     {
-        const results=await db.query(`INSERT INTO shipments (order_date , arrival_date,suppliers_id) VALUES('${Shipment.order_date}','${Shipment.arrival_date}','${Shipment.suppliers_id}') RETURNING *`);
+        const results=await db.query(`INSERT INTO shipments (order_date , completed_delivery_date,suppliers_id,user_id) VALUES('${Shipment.order_date}','${Shipment.completed_delivery_date}','${Shipment.suppliers_id}','${Shipment.user_id}') RETURNING *`);
         return results.rows[0];
     }
     static async getAllShipments()
     {
-        const results= await db.query("SELECT order_date , arrival_date,suppliers_id FROM shipments;");
+        const results= await db.query("SELECT * FROM shipments;");
   
         return results.rows; 
     }
 
-    static async getShipments(id)
+    static async getShipment(id)
     {
 
-        const results=  await db.query(`SELECT order_date , arrival_date,suppliers_id FROM shipments WHERE suppliers_id = ${id}`);
+        const results=  await db.query(`SELECT * FROM shipments WHERE shipments_id = ${id}`);
         return results.rows[0];
          
     }
@@ -75,54 +75,54 @@ class Supplier
     {
       await db.query(
         `UPDATE shipments SET order_date ='${user_form_data.order_date}',
-        arrival_date='${user_form_data.arrival_date}',
-        suppliers_id ='${user_form_data.suppliers_id}'
+        completed_delivery_date='${user_form_data.completed_delivery_date}',
+        suppliers_id ='${user_form_data.suppliers_id}',
+        user_id ='${user_form_data.user_id}'
         WHERE shipments_id = ${id} ;`)
     }
+  
 
 
 
 
 
-
-
-
-
-    static async createItemSupplier(id)
+    static async createShipment_load(Shipment_loads)
     {
-        const results=await db.query(`INSERT INTO Supplied_items (suppliers_id ,stored_items_id) VALUES('${id.suppliers_id}','${id.stored_items_id}') RETURNING *`);
+        const results=await db.query(`INSERT INTO shipments (quantity ,items_id,shipments_id) VALUES('${Shipment_loads.quantity}','${Shipment_loads.items_id}','${Shipment_loads.shipments_id}') RETURNING *`);
         return results.rows[0];
     }
-    static async getAllItemSuppliers()
+    static async getAllShipment_load()
     {
-        const results= await db.query("SELECT suppliers_id ,stored_items_id FROM Supplied_items;");
+        const results= await db.query("SELECT * FROM Shipment_loads;");
   
         return results.rows; 
     }
 
-    static async getItemSupplier(id)
+    static async getShipment_load(id)
     {
 
-        const results=  await db.query(`SELECT suppliers_id ,stored_items_id FROM Supplied_items WHERE suppliers_id = ${id}`);
+        const results=  await db.query(`SELECT * FROM Shipment_loads WHERE shipment_load_id = ${id}`);
         return results.rows[0];
          
     }
 
     
-    static async deleteItemSupplier(id)
+    static async deleteShipment_load(id)
     {
-        await db.query(`DELETE FROM Supplied_items WHERE suppliers_id = ${id.item} and stored_items_id = ${id.shopping_no}`);
+        await db.query(`DELETE FROM Shipment_loads WHERE shipment_load_id = ${id.item} `);
        
     }
 
-    static async updateItemSupplier(user_form_data,id)
+    static async updateShipment_load(user_form_data,id)
     {
       await db.query(
-        `UPDATE Supplied_items SET suppliers_id ='${user_form_data.suppliers_id}',
-        stored_items_id='${user_form_data.stored_items_id}'
-        WHERE suppliers_id = ${id} ;`)
+        `UPDATE Shipment_loads SET quantity ='${user_form_data.quantity}',
+        items_id='${user_form_data.items_id}',
+        shipments_id ='${user_form_data.shipments_id}'
+        WHERE shipment_load_id = ${id} ;`)
     }
-  
+
 }
+
 
 module.exports = Supplier;

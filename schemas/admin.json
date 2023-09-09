@@ -23,6 +23,22 @@
       },
       "isauth": {
         "type": "boolean"
+      },
+      "first_name":{
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20
+      },
+      "last_name":{
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20
+      },
+      "location":
+      {
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 20
       }
     },
     "additionalProperties": false,
@@ -32,7 +48,9 @@
       "phone_number",
       "password",
       "location",
-      "isauth"
+      "isauth",
+      "first_name",
+      "last_name"
 
     ]
   }

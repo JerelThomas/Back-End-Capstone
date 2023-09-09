@@ -4,10 +4,10 @@ const {authenticateJWT} = require("./middleware/auth");
 const {NotFoundError} = require("./helpers/expressErrors.js");
 require("dotenv").config();
 
-const generalController=require("./controllers/GeneralController.js");
+const shipmentController=require("./controllers/ShipmentController.js");
 const userController=require("./controllers/UserController.js");
-const authController = require("./controllers/AuthController");
-
+const authController=require("./controllers/AuthController.js");
+const itemController=require("./controllers/itemController.js");
 
 const app = express();
 app.use(express.urlencoded({extended:true}));
@@ -19,8 +19,13 @@ app.use(cors());
 app.use(authenticateJWT);
 
 app.use("/api/auth",authController);
-app.use("/api/user", generalController);
-app.use("/api", userController);
+app.use("/api/items", itemController);
+app.use("/api/users", userController);
+
+app.use("/api", shipmentController);
+
+
+
 
 app.use(function (req, res, next) {
   throw new NotFoundError();

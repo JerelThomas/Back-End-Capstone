@@ -12,21 +12,23 @@ class User
     
         const salt = await bcrypt.genSalt(10); 
         const hashPassword = await bcrypt.hash(user.password,salt);
-
+        
 
         const results= await db.query(`
         INSERT INTO users 
         (
-            username,email,phone_number,password,location
+            username,email,phone_number,password,location,first_name,last_name
         ) 
-        VALUES($1,$2,$3,$4,$5) 
-        RETURNING username,email,phone_number,password,location`,
+        VALUES($1,$2,$3,$4,$5,$6,$7) 
+        RETURNING username,email,phone_number,password,location,first_name,last_name`,
         [
             user.username,
             user.email,
             user.phone_number,
             hashPassword,
-            user.location
+            user.location,
+            user.first_name,
+            user.last_name
         ]);
         return results.rows[0];
     }
@@ -41,24 +43,26 @@ class User
         const results= await db.query(`
         INSERT INTO users 
         (
-            username,email,phone_number,password,location,isauth
+            username,email,phone_number,password,location,isauth,first_name,last_name
         ) 
-        VALUES($1,$2,$3,$4,$5,$6) 
-        RETURNING username,email,phone_number,password,location,isauth`,
+        VALUES($1,$2,$3,$4,$5,$6,$7,$8) 
+        RETURNING username,email,phone_number,password,location,isauth,first_name,last_name`,
         [
             user.username,
             user.email,
             user.phone_number,
             hashPassword,
             user.location,
-            user.isauth
+            user.isauth,
+            user.first_name,
+            user.last_name
         ]);
         return results.rows[0];
     }
 
     static async getAllUsers()
     {
-        const results= await db.query("SELECT user_id,username,email,phone_number,password,IsAuth,location,shopping_cart_no FROM Users;");
+        const results= await db.query("SELECT * FROM Users;");
   
         return results.rows; 
     }
@@ -66,7 +70,7 @@ class User
     static async getUser(id)
     {
 
-        const results=  await db.query(`SELECT user_id,username,email,phone_number,password,IsAuth,location,shopping_cart_no FROM Users WHERE user_id = ${id}`);
+        const results=  await db.query(`SELECT * FROM Users WHERE user_id = ${id}`);
         return results.rows[0];
          
     }
@@ -75,7 +79,7 @@ class User
     {
         const results= await db.query(`
         SELECT 
-        user_id,username,email,phone_number,password,IsAuth,location,shopping_cart_no
+       *
         FROM Users 
         WHERE email=$1`,
         [email]);
@@ -99,7 +103,9 @@ class User
         location='${user_form_data.location}',
         phone_number='${user_form_data.phone_number}',
         IsAuth='${user_form_data.IsAuth}',
-        location='${user_form_data.location}'
+        location='${user_form_data.location}',
+        first_name='${user_form_data.first_name}',
+        last_name='${user_form_data.last_name}'
         WHERE user_id = ${id} ;`)
     }
   

@@ -25,7 +25,18 @@
         "type": "string",
         "minLength": 5,
         "maxLength": 20
+      },
+      "first_name":{
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20
+      },
+      "last_name":{
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 20
       }
+
     },
     "additionalProperties": false,
     "required": [
@@ -33,7 +44,9 @@
       "email",
       "phone_number",
       "password",
-      "location"
+      "location",
+      "first_name",
+      "last_name"
     ]
   }
   
